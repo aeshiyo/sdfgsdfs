@@ -1,0 +1,17 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Цикл обновляет координаты каждую секунду
+while task.wait(1) do
+    if rootPart and rootPart.Parent then
+        local pos = rootPart.Position
+        -- Форматируем вывод, округляя значения до сотых
+        print(string.format("Текущие координаты -> X: %.2f | Y: %.2f | Z: %.2f", pos.X, pos.Y, pos.Z))
+    else
+        -- Переподключаем ссылки, если персонаж ресетнулся/переродился
+        character = player.Character or player.CharacterAdded:Wait()
+        rootPart = character:WaitForChild("HumanoidRootPart")
+    end
+end
